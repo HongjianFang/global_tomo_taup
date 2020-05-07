@@ -824,7 +824,7 @@ class TauPyModel(object):
     def get_ray_paths_geo(self, source_depth_in_km, source_latitude_in_deg,
                           source_longitude_in_deg, receiver_latitude_in_deg,
                           receiver_longitude_in_deg, phase_list=("ttall",),
-                          resample=False):
+                          resample=False,sampleds=5.0):
         """
         Return ray paths of every given phase with geographical info.
 
@@ -873,7 +873,7 @@ class TauPyModel(object):
                                            receiver_longitude_in_deg,
                                            self.model.radius_of_planet,
                                            self.planet_flattening,
-                                           resample=resample)
+                                           resample=resample,sampleds=sampleds)
         else:
             msg = "Not able to evaluate positions of points on path. " + \
                   "Arrivals object will not be modified. " + \

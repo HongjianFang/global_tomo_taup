@@ -117,7 +117,7 @@ def calc_dist_azi(source_latitude_in_deg, source_longitude_in_deg,
 def add_geo_to_arrivals(arrivals, source_latitude_in_deg,
                         source_longitude_in_deg, receiver_latitude_in_deg,
                         receiver_longitude_in_deg, radius_of_planet_in_km,
-                        flattening_of_planet, resample=False):
+                        flattening_of_planet, resample=False,sampleds=5.0):
     """
     Add geographical information to arrivals.
 
@@ -193,7 +193,8 @@ def add_geo_to_arrivals(arrivals, source_latitude_in_deg,
                 if resample:
                     rplanet = radius_of_planet_in_km
                     # compute approximate distance between sampling points
-                    mindist = 200  # km
+                    # mindist = 200  # km
+                    mindist = sampleds
                     radii = rplanet - arrival.path['depth']
                     rmean = np.sqrt(radii[1:] * radii[:-1])
                     diff_dists = rmean * np.diff(arrival.path['dist'])
@@ -245,10 +246,11 @@ def add_geo_to_arrivals(arrivals, source_latitude_in_deg,
                                           for point in pos_interp]
 
                             # add them to geo_path
+# dists_new --> np.radians(dists_new), modified by Hongjian Fang
                             for i_extra in range(npts_new):
                                 geo_path[i_new] = (p_interp[i_extra],
                                                    time_interp[i_extra],
-                                                   dists_new[i_extra],
+                                                   np.radians(dists_new[i_extra]),
                                                    depth_interp[i_extra],
                                                    lat_interp[i_extra],
                                                    lon_interp[i_extra])
